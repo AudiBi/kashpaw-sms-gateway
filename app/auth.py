@@ -1,28 +1,20 @@
-from fastapi import Header
-from fastapi import HTTPException
+from fastapi import Depends, HTTPException
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from app.config import Config
 
+security = HTTPBearer()
+
 
 def verify_token(
-    authorization: str = Header(...)
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
-
-    if not authorization.startswith("Bearer "):
-
-        raise HTTPException(
-            status_code=401,
-            detail="Authorization header missing"
-        )
-
-    token = authorization.replace(
-        "Bearer ",
-        ""
-    )
+    token = credentials.credentials
 
     if token != Config.API_TOKEN:
-
         raise HTTPException(
             status_code=401,
             detail="Invalid API Token"
         )
+
+    return token
