@@ -1,15 +1,34 @@
-from app.services.sms_service import SmsService
+import smpplib.client
+import smpplib.consts
 
-sms = SmsService()
+HOST = "172.20.222.38"
+PORT = 5020
 
-sequence = sms.send(
+SYSTEM_ID = "KASHPAW"
+PASSWORD = "K4$hP4w"
 
-    to="50948524055",
+client = smpplib.client.Client(HOST, PORT)
 
-    message="Test SMS Gateway KashPaw",
+client.connect()
 
-    sender="KashPaw"
-
+client.bind_transceiver(
+    system_id=SYSTEM_ID,
+    password=PASSWORD
 )
 
-print(sequence)
+print("Bind OK")
+
+pdu = client.send_message(
+    source_addr_ton=smpplib.consts.SMPP_TON_ALNUM,
+    source_addr_npi=smpplib.consts.SMPP_NPI_UNKNOWN,
+    source_addr="KashPaw",
+    dest_addr_ton=smpplib.consts.SMPP_TON_INTL,
+    dest_addr_npi=smpplib.consts.SMPP_NPI_ISDN,
+    destination_addr="509XXXXXXXX",
+    short_message="Test SMPP"
+)
+
+print(pdu)
+
+client.unbind()
+client.disconnect()
