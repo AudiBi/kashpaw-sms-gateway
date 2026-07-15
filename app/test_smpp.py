@@ -20,11 +20,11 @@ print("Bind OK")
 
 pdu = client.send_message(
     source_addr_ton=smpplib.consts.SMPP_TON_ALNUM,
-    source_addr_npi=smpplib.consts.SMPP_NPI_UNKNOWN,
+    source_addr_npi=smpplib.consts.SMPP_NPI_UNK,
     source_addr="KashPaw",
     dest_addr_ton=smpplib.consts.SMPP_TON_INTL,
     dest_addr_npi=smpplib.consts.SMPP_NPI_ISDN,
-    destination_addr="509XXXXXXXX",
+    destination_addr="50948524055",
     short_message="Test SMPP"
 )
 
