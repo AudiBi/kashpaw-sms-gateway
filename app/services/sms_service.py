@@ -1,30 +1,55 @@
-from app.smpp import SmppGateway
+from typing import Optional
+
+from app.logger import logger
+from app.services.smpp_gateway import SmppGateway
 
 
 class SmsService:
+    """
+    Service d'envoi des SMS.
+    """
+
+    _gateway = SmppGateway()
 
     def __init__(self):
 
-        self.gateway = SmppGateway()
+        self.gateway = SmsService._gateway
 
     def send(
-
         self,
+        to: str,
+        message: str,
+        sender: Optional[str] = None,
+    ) -> int:
 
-        to,
+        if not to:
+            raise ValueError("Le numéro de destination est obligatoire.")
 
-        message,
+        if not message:
+            raise ValueError("Le message est obligatoire.")
 
-        sender="KashPaw"
+        logger.info("=" * 60)
+        logger.info("SmsService")
+        logger.info(f"Destination : {to}")
+        logger.info(f"Sender      : {sender}")
+        logger.info(f"Longueur    : {len(message)} caractères")
 
-    ):
+        try:
 
-        return self.gateway.send_sms(
+            sequence = self.gateway.send_sms(
+                to=to,
+                message=message,
+                sender=sender,
+            )
 
-            to,
+            logger.info(
+                f"SMS envoyé avec succès. Sequence={sequence}"
+            )
 
-            message,
+            return sequence
 
-            sender
+        except Exception:
 
-        )
+            logger.exception("Erreur dans SmsService")
+
+            raise
