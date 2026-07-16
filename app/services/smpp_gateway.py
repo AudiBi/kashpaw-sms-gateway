@@ -99,7 +99,8 @@ class SmppGateway:
     def ensure_connection(self):
 
         if not self.connected:
-
+            
+            self.disconnect()
             self.connect()
 
             return
