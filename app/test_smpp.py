@@ -23,8 +23,8 @@ Command._generate_string = _generate_string_patched
 HOST = "172.20.222.38"
 PORT = 5020
 
-SYSTEM_ID = "......"
-PASSWORD = "....."
+SYSTEM_ID = "KASHPAW"
+PASSWORD = "K4$hP4w"
 
 client = smpplib.client.Client(HOST, PORT)
 
